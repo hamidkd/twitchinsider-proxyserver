@@ -1,5 +1,5 @@
 "use strict";
-
+require("dotenv").config();
 const express = require("express");
 var bodyParser = require("body-parser");
 const morgan = require("morgan");
@@ -8,7 +8,6 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const port_number = process.env.PORT || 8000;
 const HOST = "localhost";
-const API_SERVICE_URL = "https://api.twitch.tv/helix";
 
 const app = express();
 //this will give you HTTP requests log in console
@@ -57,7 +56,7 @@ app.use('', (req, res, next) => {
 
 // Proxy endpoints
 app.use('/proxyapi', createProxyMiddleware({
-  target: API_SERVICE_URL,
+  target: process.env.API_SERVICE_URL,
   changeOrigin: true,
   pathRewrite: {
       [`^/proxyapi`]: '',
